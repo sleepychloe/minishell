@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-  git clone [https://github.com/sleepychloe/minishell.git](https://github.com/sleepychloe/minishell_with-spookier.git)
+  git clone https://github.com/sleepychloe/minishell_with-spookier.git
   cd minishell_with-spookier
   make
 ```
@@ -32,8 +32,8 @@ install it via
 - signle or double quotes with dollar sign: dollar sign will be removed
     ex) command: echo $'cmd'
          output: cmd
-- checklist
 
+- checklist
 ╔══════════════════╦══════════════════╗
 ║     command      ║      output      ║
 ╠══════════════════╬══════════════════╣
