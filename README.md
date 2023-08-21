@@ -22,6 +22,7 @@ install it via
 ```
 
 ## Handling invironment variable with quote, double quote, and dollar sign
+```
 - single quotes with $ENV: env variable will not change to the its value
     ex) command: echo '$HOME'
          output: $HOME
@@ -32,7 +33,7 @@ install it via
     ex) command: echo $'cmd'
          output: cmd
 - checklist
-```
+
 ╔══════════════════╦══════════════════╗
 ║     command      ║      output      ║
 ╠══════════════════╬══════════════════╣
