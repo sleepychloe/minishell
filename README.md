@@ -4,7 +4,7 @@
 
 ```bash
   git clone https://github.com/sleepychloe/minishell_with_spookier.git
-  cd minishell_with-spookier
+  cd minishell_with_spookier
   make
 ```
 
