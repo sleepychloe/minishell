@@ -1,9 +1,9 @@
-# minishell_with-spookier
+# minishell_with_spookier
 
 ## Installation
 
 ```bash
-  git clone https://github.com/sleepychloe/minishell_with-spookier.git
+  git clone https://github.com/sleepychloe/minishell_with_spookier.git
   cd minishell_with-spookier
   make
 ```
