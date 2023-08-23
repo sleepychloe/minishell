@@ -61,6 +61,6 @@ install it via
 ```
 
 
-parse: sleepychloe
-execute built-in: sleepychloe
-execute non built-in: spookier
+parse: sleepychloe\
+execute built-in: sleepychloe\
+execute non built-in: spookier\
