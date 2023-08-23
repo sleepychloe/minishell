@@ -63,4 +63,4 @@ install it via
 
 parse: sleepychloe \
 execute built-in: sleepychloe \
-execute non built-in: spookier \
+execute non built-in: spookier
