@@ -59,3 +59,8 @@ install it via
 ║  echo $"?"       ║  ?               ║
 ╚══════════════════╩══════════════════╝
 ```
+
+
+parse: sleepychloe
+execute built-in: sleepychloe
+execute non built-in: spookier
