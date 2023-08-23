@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_dollar_quote.c                               :+:      :+:    :+:   */
+/*   parse_make_new_line.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 04:08:24 by yhwang            #+#    #+#             */
-/*   Updated: 2023/06/01 04:08:57 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:25:53 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 void	remove_dollar(char *line)
 {
@@ -59,4 +59,15 @@ void	remove_quote(char *line)
 		}
 		i++;
 	}
+}
+
+char	*make_new_line(char **env, char *rdline)
+{
+	char	*line;
+
+	line = ft_strdup(rdline);
+	remove_dollar(line);
+	line = handle_env_var(env, line);
+	remove_quote(line);
+	return (line);
 }

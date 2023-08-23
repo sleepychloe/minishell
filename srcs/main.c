@@ -6,11 +6,13 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:52:37 by yhwang            #+#    #+#             */
-/*   Updated: 2023/08/21 21:58:26 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:29:00 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+int	g_exit_code;
 
 char	**alloc_env(char **env)
 {
@@ -35,46 +37,30 @@ char	**alloc_env(char **env)
 	return (arr_env);
 }
 
-void	minishell_header(void)
+void	signal_handler(int signo)
 {
-	printf("%s\n", YELLOW);
-	printf("╔════╦════╦══╦════════╦══╦═══════╦══╗  ╔══╦═══════╦══╗  ╔══╗   \n");
-	printf("║    ║    ║  ║        ║  ║       ║  ║  ║  ║       ║  ║  ║  ║   \n");
-	printf("║    ║    ║  ║  ╔══╗  ║  ║   ════╣  ╚══╝  ║   ════╣  ║  ║  ║   \n");
-	printf("║  ║ ║ ║  ║  ║  ║  ║  ║  ║       ║        ║       ║  ║  ║  ║   \n");
-	printf("║  ║ ║ ║  ║  ║  ║  ║  ║  ╠════   ║  ╔══╗  ║   ════╣  ╚══╣  ╚══╗\n");
-	printf("║  ║   ║  ║  ║  ║  ║  ║  ║       ║  ║  ║  ║       ║     ║     ║\n");
-	printf("╚══╩═══╩══╩══╩══╝  ╚══╩══╩═══════╩══╝  ╚══╩═══════╩═════╩═════╝\n");
-	printf("                                                               \n");
-	printf("                                      by. acostin, yhwang 🐣🐥 \n");
-	printf("%s\n", BLACK);
+	/* ctrl - c */
+	if (signo == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_exit_code = 130;
+	}
+	/* ctrl - \ */
+	else if (signo == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		g_exit_code = 127;
+	}
 }
 
-void	exec_main(t_data **cmd, char **env)//erase later
+void	signal_detect(void)
 {
-	int	i;
-
-	(void)env;
-	i = -1;
-	printf("%s", YELLOW);
-	while (cmd[++i])
-	{
-		printf("cmd[%d] command: %s\n", i, cmd[i]->command);
-		int j = -1;
-		while (cmd[i]->option[++j])
-			printf("       option[%d]: %s\n", j, cmd[i]->option[j]);
-		if (cmd[i]->redir->redir_flag == IN)
-			printf("       redir: IN, filename: %s\n", cmd[i]->redir->file_name);
-		else if (cmd[i]->redir->redir_flag == OUT)
-			printf("       redir: OUT, filename: %s\n", cmd[i]->redir->file_name);
-		else if (cmd[i]->redir->redir_flag == HEREDOC)
-			printf("       redir: HEREDOC, filename: %s\n", cmd[i]->redir->file_name);
-		else if (cmd[i]->redir->redir_flag == APPEND)
-			printf("       redir: APPEND, filename: %s\n", cmd[i]->redir->file_name);
-		else
-			printf("       redir: NONE\n");
-	}
-	printf("%s", BLACK);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 }
 
 int	minishell_main(t_data **cmd, char **env)
@@ -111,7 +97,7 @@ int	minishell_main(t_data **cmd, char **env)
 			free(rdline);
 			continue ;
 		}
-//alex		/* execute command */
+		/* execute command */
 		exec_main(cmd, env);
 		/* free rdline and cmd struct for next command */
 		free(rdline);

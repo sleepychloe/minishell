@@ -6,11 +6,11 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:23:23 by yhwang            #+#    #+#             */
-/*   Updated: 2023/05/29 03:33:49 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:23:04 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 void	convert_line(char *line)
 {

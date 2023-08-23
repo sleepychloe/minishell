@@ -6,11 +6,11 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 03:38:41 by yhwang            #+#    #+#             */
-/*   Updated: 2023/05/29 03:40:19 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:22:57 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 int	token_redir_in_err(char *line, int i)
 {

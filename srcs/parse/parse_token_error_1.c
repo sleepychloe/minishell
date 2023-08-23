@@ -6,11 +6,11 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 04:11:57 by yhwang            #+#    #+#             */
-/*   Updated: 2023/05/31 01:42:41 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:23:00 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 int	token_quote_err(char *line)
 {

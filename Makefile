@@ -6,7 +6,7 @@
 #    By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/24 15:50:04 by yhwang            #+#    #+#              #
-#    Updated: 2023/08/21 21:11:23 by yhwang           ###   ########.fr        #
+#    Updated: 2023/08/23 02:21:55 by yhwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,20 @@ LIBFT_DIR = ./libft
 LIBFT_NAME = libft.a
 LIBFT = $(addprefix $(LIBFT_DIR)/, $(LIBFT_NAME))
 
+PARSE = /parse/
+EXECUTE = /execute/
+
 FILES =	main \
-		signal \
-		parse \
-		parse_token_error_1 \
-		parse_token_error_2 \
-		parse_pos_error \
-		parse_dollar_quote \
-		parse_env_variable \
-		parse_utils \
-		lib_utils
+		$(PARSE)parse \
+		$(PARSE)parse_token_error_1 \
+		$(PARSE)parse_token_error_2 \
+		$(PARSE)parse_pos_error \
+		$(PARSE)parse_make_new_line \
+		$(PARSE)parse_handle_env_variable \
+		$(PARSE)parse_fill_cmd_struct \
+		$(PARSE)parse_utils \
+		$(PARSE)parse_lib_utils \
+		$(EXECUTE)execute_main \
 
 INCS_DIR = ./incs
 

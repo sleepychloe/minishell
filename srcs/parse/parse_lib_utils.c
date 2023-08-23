@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib_utils.c                                        :+:      :+:    :+:   */
+/*   parse_lib_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 20:50:20 by yhwang            #+#    #+#             */
-/*   Updated: 2023/06/01 06:15:33 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:24:41 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 void	*ft_realloc(void *old_ptr, size_t old_len, size_t new_len)
 {

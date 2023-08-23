@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_env_variable.c                               :+:      :+:    :+:   */
+/*   parse_handle_env_variable.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 04:02:37 by yhwang            #+#    #+#             */
-/*   Updated: 2023/06/01 06:07:18 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/08/23 02:31:46 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 char	*change_key_to_value(char *line,
 			char *key, int pos_key_start, char *value)
