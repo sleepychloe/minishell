@@ -6,7 +6,7 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 20:50:20 by yhwang            #+#    #+#             */
-/*   Updated: 2023/08/23 02:24:41 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/09/24 16:07:40 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	free_2d_arr(char **arr)
 void	free_cmd(t_data **cmd)
 {
 	int	i;
+	int	j;
 
 	i = -1;
 	while (cmd[++i])
@@ -46,14 +47,29 @@ void	free_cmd(t_data **cmd)
 			free(cmd[i]->command);
 		if (cmd[i]->option)
 			free_2d_arr(cmd[i]->option);
+		j = -1;
 		if (cmd[i]->redir)
 		{
-			if (cmd[i]->redir->file_name)
-				free(cmd[i]->redir->file_name);
+			while (cmd[i]->redir[++j])
+			{
+				if (cmd[i]->redir[j]->file_name)
+					free(cmd[i]->redir[j]->file_name);
+				free(cmd[i]->redir[j]);
+			}
 			free(cmd[i]->redir);
 		}
 		free(cmd[i]);
 	}
 	if (cmd)
 		free(cmd);
+}
+
+void	minishell_exit(t_data **cmd, char **env, char *err_msg)
+{
+	if (cmd)
+		free_cmd(cmd);
+	if (env)
+		free_2d_arr(env);
+	if (err_msg)
+		stderr_msg(err_msg);
 }

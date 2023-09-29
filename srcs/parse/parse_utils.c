@@ -6,7 +6,7 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 04:10:48 by yhwang            #+#    #+#             */
-/*   Updated: 2023/08/23 02:24:24 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/09/24 15:32:15 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,18 @@ void	minishell_header(void)
 	printf("%s\n", BLACK);
 }
 
+void	stderr_msg(char *str)
+{
+	ft_putstr_fd(RED, STDERR);
+	ft_putstr_fd(str, STDERR);
+	ft_putstr_fd(BLACK, STDERR);
+}
+
 void	token_err_msg(char *s)
 {
-	printf("%sminishell: syntax error near unexpected token `%s'%s\n",
-		RED, s, BLACK);
+	stderr_msg("minishell: syntax error near unexpected token `");
+	stderr_msg(s);
+	stderr_msg("'\n");
 }
 
 int	find_c_pos(char *str, char c, int start)

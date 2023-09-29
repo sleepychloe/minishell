@@ -6,11 +6,27 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:23:23 by yhwang            #+#    #+#             */
-/*   Updated: 2023/08/23 02:23:04 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/09/29 01:26:31 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
+
+char	*copy_line(char *line)
+{
+	char	*res;
+	int		len;
+	int		i;
+
+	i = -1;
+	len = ft_strlen(line);
+	res = (char *)ft_calloc(sizeof(char), len + 2);
+	if (!res)
+		return (stderr_msg("Error: malloc error\n"), NULL);
+	while (line[++i])
+		res[i] = line[i];
+	return (res);
+}
 
 void	convert_line(char *line)
 {
@@ -31,63 +47,6 @@ void	convert_line(char *line)
 	}
 	line[i] = END;
 	line[i + 1] = '\0';
-}
-
-void	pos_err_msg(int flag)
-{
-	if (flag == PIPE)
-		token_err_msg("|");
-	else if (flag == IN)
-		token_err_msg("<");
-	else if (flag == OUT)
-		token_err_msg(">");
-	else if (flag == HEREDOC)
-		token_err_msg("<<");
-	else
-		token_err_msg(">>");
-}
-
-int	check_pos_err(char *line, int *flag, int i)
-{
-	while (line[i] != END)
-	{
-		if (line[i] == PIPE || line[i] == IN || line[i] == OUT)
-		{
-			*flag = line[i];
-			i++;
-			if (line[i] == IN || line[i] == OUT)
-			{
-				if (line[i] == IN)
-					*flag = HEREDOC;
-				else
-					*flag = APPEND;
-				i++;
-			}
-			while (line[i] == SPACE)
-				i++;
-			if (line[i] == END || line[i] == PIPE
-				|| line[i] == IN || line[i] == OUT)
-				return (pos_err_msg(*flag), 1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-char	*copy_line(char *line)
-{
-	char	*res;
-	int		len;
-	int		i;
-
-	i = -1;
-	len = ft_strlen(line);
-	res = (char *)ft_calloc(sizeof(char), len + 2);
-	if (!res)
-		return (printf("%sError: malloc error%s\n", RED, BLACK), NULL);
-	while (line[++i])
-		res[i] = line[i];
-	return (res);
 }
 
 int	pos_err(char *line)
@@ -111,7 +70,7 @@ int	pos_err(char *line)
 			i = (pos + 1);
 			continue ;
 		}
-		if (check_pos_err(copy, &flag, i))
+		if (check_pos_err(copy, &flag, &i))
 			return (free(copy), 1);
 		i++;
 	}

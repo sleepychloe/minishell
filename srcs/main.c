@@ -6,7 +6,7 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:52:37 by yhwang            #+#    #+#             */
-/*   Updated: 2023/08/23 02:29:00 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/09/29 01:32:08 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,95 +14,92 @@
 
 int	g_exit_code;
 
-char	**alloc_env(char **env)
+int	alloc_env(char ***env)
 {
 	char	**arr_env;
 	int		i;
 
 	arr_env = (char **)ft_calloc(sizeof(char *), 2);
 	if (!arr_env)
-		return (printf("%sError: malloc error%s\n", RED, BLACK), NULL);
+		return (stderr_msg("Error: malloc error\n"), 1);
 	i = -1;
-	while (env[++i])
+	while ((*env)[++i] && find_c_pos((*env)[i], '=', 0) != -1)
 	{
-		arr_env = ft_realloc(arr_env, sizeof(char *) * (i + 1),
-				sizeof(char *) * (i + 2));
-		arr_env[i] = strdup(env[i]);
+		if (i > 0)
+			arr_env = ft_realloc(arr_env, sizeof(char *) * (i + 1),
+					sizeof(char *) * (i + 2));
+		arr_env[i] = ft_strdup((*env)[i]);
 		if (!arr_env[i])
 		{
-			printf("%sError: malloc error%s\n", RED, BLACK);
-			return (free_2d_arr(env), NULL);
+			stderr_msg("Error: malloc error\n");
+			return (free_2d_arr(arr_env), 1);
 		}
 	}
-	return (arr_env);
+	arr_env = remove_element_from_env(arr_env, "OLDPWD");
+	*env = arr_env;
+	return (0);
 }
 
 void	signal_handler(int signo)
 {
-	/* ctrl - c */
+	pid_t	pid;
+	int		status;
+
+	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (pid == CHILD)
+			printf("\n");
+		else
+		{
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 		g_exit_code = 130;
 	}
-	/* ctrl - \ */
 	else if (signo == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_redisplay();
-		g_exit_code = 127;
+		if (pid == CHILD)
+			printf("Quit\n");
+		g_exit_code = 131;	
 	}
 }
 
 void	signal_detect(void)
 {
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-int	minishell_main(t_data **cmd, char **env)
+int	minishell_main(t_data **cmd, char ***env)
 {
 	char	*rdline;
 
 	while (1)
 	{
-		/* detect signal */
 		signal_detect();
-		/* alloc cmd */
 		cmd = ft_calloc(sizeof(t_data *), 2);
-		/* error check: malloc */
 		if (!cmd)
-			return (printf("%sError: malloc error%s\n", RED, BLACK), 1);
-		/* read command */
-		rdline = readline("\x1b[36mminishell$\x1b[0m ");
-		/* when rdline is NULL: ctrl - D */
+			return (minishell_exit(NULL, *env, "Error: malloc error\n"), 1);
+		rdline = readline("\001\x1b[36m\002minishell$\001\x1b[0m\002 ");
 		if (!rdline)
 		{
-			/* print exit and free cmd structure */
 			printf("exit\n");
-			return (free_cmd(cmd), 1);
+			return (minishell_exit(cmd, *env, NULL), 1);
 		}
 		add_history(rdline);
-		/* start parsing */
-		cmd = parse(cmd, env, rdline);
-		/* check if any error happened and free rdline if there was error
-			and then while loop will be repeated
-			: if any error has happened during parsing,
-			cmd is freed and NULL was returned */
+		cmd = parse(cmd, *env, rdline);
 		if (!cmd)
 		{
 			free(rdline);
 			continue ;
 		}
-		/* execute command */
 		exec_main(cmd, env);
-		/* free rdline and cmd struct for next command */
-		free(rdline);
 		free_cmd(cmd);
 	}
+	return (free_2d_arr(*env), 0);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -110,23 +107,15 @@ int	main(int argc, char **argv, char **env)
 	t_data	**cmd;
 
 	(void)argv;
-	/* error check: argument */
 	if (argc != 1)
-		return (printf("%sArgument error\nUseage: ./minishell%s\n",
-				RED, BLACK), 1);
-	/* alloc env variable */
-	env = alloc_env(env);
-	/* error check: malloc */
+		return (stderr_msg("Argument error\nUseage: ./minishell\n"), 1);
+	if (alloc_env(&env))
+		return (1);
 	if (!env)
 		return (1);
-	/* print our minishell header */
 	minishell_header();
 	cmd = NULL;
-	/* normal operation
-		: if any error happened, free env variable and return 1 */
-	if (minishell_main(cmd, env))
-		return (free_2d_arr(env), 1);
-	/* free: env variable */
-	free_2d_arr(env);
+	if (minishell_main(cmd, &env))
+		return (1);
 	return (0);
 }
