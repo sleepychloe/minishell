@@ -6,7 +6,7 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:52:50 by yhwang            #+#    #+#             */
-/*   Updated: 2023/09/29 03:25:24 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/09/29 05:09:09 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void		revert_cmd(t_data **cmd);
 t_data		**fill_cmd_struct(t_data **cmd, char *each_cmd, int cmd_i);
 
 /* parse_fill_cmd_check_redir.c */
+int			find_redir(char **split_cmd, int i);
 void		fill_realloc_redir(t_data **cmd,
 				char **split_cmd, int cmd_i, int i);
 void		realloc_redir(t_data **cmd, char **split_cmd, int cmd_i, int flag);

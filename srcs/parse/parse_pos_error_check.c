@@ -6,7 +6,7 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 01:22:17 by yhwang            #+#    #+#             */
-/*   Updated: 2023/09/29 01:27:44 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:30:09 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_pos_flag(char *line, int *flag, int *i)
 		while (j <= *i && line[++j])
 		{
 			if (line[j] != END && line[j] != PIPE
-			&& line[j] != IN && line[j] != OUT && line[j] != SPACE)
+				&& line[j] != IN && line[j] != OUT && line[j] != SPACE)
 				k++;
 		}
 		if (k == 1)

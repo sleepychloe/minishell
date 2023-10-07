@@ -6,29 +6,46 @@
 /*   By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 00:58:08 by yhwang            #+#    #+#             */
-/*   Updated: 2023/09/24 16:41:10 by yhwang           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:32:11 by yhwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
+int	find_redir(char **split_cmd, int i)
+{
+	int	flag;
+	int	j;
+
+	flag = 0;
+	j = 0;
+	while (flag <= i)
+	{
+		if (is_redir(split_cmd[j]))
+			flag++;
+		j++;
+	}
+	return (j);
+}
+
 void	fill_realloc_redir(t_data **cmd,
 			char **split_cmd, int cmd_i, int i)
 {
+	int	j;
+
 	if (cmd[cmd_i]->redir[i]->redir_flag == -1)
 	{
-		if (split_cmd[(i + 1) * 2 - 1][0] == '<')
+		j = find_redir(split_cmd, i) - 1;
+		if (split_cmd[j][0] == '<')
 		{
-			if (split_cmd[(i + 1) * 2 - 1][1]
-				&& split_cmd[(i + 1) * 2 - 1][1] == '<')
+			if (split_cmd[j][1] && split_cmd[j][1] == '<')
 				cmd[cmd_i]->redir[i]->redir_flag = HEREDOC;
 			else
 				cmd[cmd_i]->redir[i]->redir_flag = IN;
 		}
-		else if (split_cmd[(i + 1) * 2 - 1][0] == '>')
+		else if (split_cmd[j][0] == '>')
 		{
-			if (split_cmd[(i + 1) * 2 - 1][1]
-				&& split_cmd[(i + 1) * 2 - 1][1] == '>')
+			if (split_cmd[j][1] && split_cmd[j][1] == '>')
 				cmd[cmd_i]->redir[i]->redir_flag = APPEND;
 			else
 				cmd[cmd_i]->redir[i]->redir_flag = OUT;
@@ -36,7 +53,7 @@ void	fill_realloc_redir(t_data **cmd,
 	}
 	if (cmd[cmd_i]->redir[i]->redir_flag == -1)
 		cmd[cmd_i]->redir[i]->redir_flag = NONE;
-	cmd[cmd_i]->redir[i]->file_name = ft_strdup(split_cmd[(i + 1) * 2]);
+	cmd[cmd_i]->redir[i]->file_name = ft_strdup(split_cmd[++j]);
 }
 
 void	realloc_redir(t_data **cmd, char **split_cmd, int cmd_i, int flag)
