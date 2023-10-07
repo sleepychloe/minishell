@@ -1,10 +1,14 @@
-# minishell_with_spookier
+# minishell
+
+Mandatory part without any bonus
+
+Success 100/100
 
 ## Installation
 
 ```bash
-  git clone https://github.com/sleepychloe/minishell_with_spookier.git
-  cd minishell_with_spookier
+  git clone https://github.com/sleepychloe/minishell.git
+  cd minishell
   make
 ```
 
@@ -19,6 +23,10 @@ install it via
 
 ```bash
   ./minishell
+```
+to check memory leak
+```bash
+  valgrind --suppressions=./ignore_leak.supp --leak-check=full --show-leak-kinds=all ./minishell
 ```
 
 ## Handling invironment variable with quote, double quote, and dollar sign
@@ -59,8 +67,3 @@ install it via
 ║  echo $"?"       ║  ?               ║
 ╚══════════════════╩══════════════════╝
 ```
-
-
-parse: sleepychloe \
-execute built-in: sleepychloe \
-execute non built-in: spookier
