@@ -12,7 +12,7 @@ Success 100/100
   make
 ```
 
-if comfile fails because of "readline/readline.h" header,
+if compile fails because of "readline/readline.h" header,
 install it via
 
 ```bash
